@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>CBT Result</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-primary">
+
+        <div class="container">
+
+            <span class="navbar-brand fw-bold">
+                Nursing CBT
+            </span>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <div class="result-card">
+
+            <h1>Examination Result</h1>
+
+            <p class="text-muted" id="resultSubject">
+                Biology
+            </p>
+
+
+            <div class="score-circle">
+
+                <span id="percentage">
+                    0%
+                </span>
+
+            </div>
+
+
+            <h2 id="resultMessage">
+                Examination Completed
+            </h2>
+
+
+            <div class="result-stats">
+
+                <div class="result-item">
+
+                    <span>Total Questions</span>
+
+                    <strong id="totalQuestions">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>Correct</span>
+
+                    <strong id="correctAnswers">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>Wrong</span>
+
+                    <strong id="wrongAnswers">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>Unanswered</span>
+
+                    <strong id="unanswered">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-buttons">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="reviewAnswers()">
+
+                    Review Answers
+
+                </button>
+
+
+                <button
+                    class="btn btn-outline-primary"
+                    onclick="takeAnotherExam()">
+
+                    Take Another Exam
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const score =
+            Number(localStorage.getItem("score")) || 0;
+
+        const percentage =
+            Number(localStorage.getItem("percentage")) || 0;
+
+        const selectedSubjects = JSON.parse(
+            localStorage.getItem("selectedSubjects") || "[]"
+        );
+
+        const subject =
+            selectedSubjects.length > 1
+                ? "MIXED SUBJECTS"
+                : (localStorage.getItem("selectedSubject") || "Biology");
+
+        const questions =
+            JSON.parse(
+                localStorage.getItem("examQuestions")
+            ) || [];
+
+        const answers =
+            JSON.parse(
+                localStorage.getItem("userAnswers")
+            ) || [];
+
+
+        const total =
+            questions.length;
+
+
+        const unanswered =
+            answers.filter(
+                answer => answer === null
+            ).length;
+
+
+        const wrong =
+            total - score - unanswered;
+
+
+        document.getElementById(
+            "percentage"
+        ).textContent = percentage + "%";
+
+
+        document.getElementById(
+            "resultSubject"
+        ).textContent =
+            subject.toUpperCase();
+
+
+        document.getElementById(
+            "totalQuestions"
+        ).textContent = total;
+
+
+        document.getElementById(
+            "correctAnswers"
+        ).textContent = score;
+
+
+        document.getElementById(
+            "wrongAnswers"
+        ).textContent = wrong;
+
+
+        document.getElementById(
+            "unanswered"
+        ).textContent = unanswered;
+
+
+        if (percentage >= 70) {
+
+            document.getElementById(
+                "resultMessage"
+            ).textContent =
+                "Excellent Performance";
+
+        }
+
+        else if (percentage >= 50) {
+
+            document.getElementById(
+                "resultMessage"
+            ).textContent =
+                "Good Performance";
+
+        }
+
+        else {
+
+            document.getElementById(
+                "resultMessage"
+            ).textContent =
+                "Keep Practicing";
+
+        }
+
+
+        function reviewAnswers() {
+
+            window.location.href =
+                "review.html";
+
+        }
+
+
+        function takeAnotherExam() {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
